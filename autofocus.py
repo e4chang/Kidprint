@@ -1,89 +1,52 @@
+FOCUS_STEP = 256
+epsylon = 0.001
+class FocusState:
 
-# coding: utf-8
+	def __init__(self):
+	    self.direction = 1
+	    self.step = FOCUS_STEP
+	    self.stepToLastMax = 0
+	    self.rate = 0.0
+	    self.rateMax = 0.0
+	    self.lastSucceeded = True
+	    self.minFocusStep = 1
+	    self.lastDirectionChange = 0
 
-# In[22]:
+#state = FocusState()
+#print state.direction
 
-# previous state
-prevFocus = 0
-step = 0
-direction = 0
-iterationRates = []
+def correctFocus(rate, state):
+	# print state.direction
+	state.lastDirectionChange += 1
+	rateDelta = rate - state.rate
 
-# constants
-epsylon = 0.05
-MAX_FOCUS = 1024
-STEPS_PER_CYCLE = 4
+	if rate > state.rateMax + epsylon:
+		state.stepToLastMax = 0
+		state.rateMax = rate
+		lastDirectionChange = 0
 
-def initialize():
-    global prevFocus
-    global direction
-    global step
-    prevFocus = 0
-    direction = 1
-    step = MAX_FOCUS / 4
-
-
-# using binary search to find focal point
-# assumes initial focus at point 0
-# [ | |^| ]
-def autofocus(rate):
-    global step, prevFocus
-    nextFocus = step + prevFocus
-    if direction == 1 and nextFocus < MAX_FOCUS:
-        # find the quadrant with the maximum surrounding rates
-        iterationRates.append(rate)
-        prevRate = rate
-        deltaRate = rate - prevRate
-        prevFocus = nextFocus
-        return step
-    elif direction == 1:
-        for i in range(len(iterationRates)):
-            if iterationRates > 
-    elif direction == -1:
-        step = step / 4
-            
-    # TODO: set direction = 0 when rate doesn't change after 3 iterations
-    elif direction == 0:
-        # midpoint
-        step = step
-    return 0
-
-
-# In[24]:
-
-initialize()
-print(autofocus(87.5))
-print(autofocus(88.5))
-print(autofocus(89.5))
-print(autofocus(91.5))
-
-
-# In[49]:
-
-import math
-import random
-NOISE = 0.02
-
-def noise():
-    return NOISE - random.random() * 2 * NOISE
-
-def generateWave():
-    wave = [math.sin(math.pi*i/MAX_FOCUS) + noise() for i in range(MAX_FOCUS)]
-
-def testAutofocus():
-    focusPoint = 0
-    sinFunc = generateWave()
-    for i in range(20):
-        stepVal = autofocus(sinFunc[focusPoint])
-        focusPoint = focusPoint + stepVal
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
+	if not state.lastSucceeded:
+		state.direction *= -1
+		state.lastDirectionChange = 0
+		state.step = state.step / 2
+	else:
+		if rate < epsylon:
+			state.step = FOCUS_STEP
+		elif rateDelta < -epsylon:
+			state.direction *= -1
+			state.step = state.step * 0.75
+			state.lastDirectionChange = 0
+		elif (rate + epsylon < state.rateMax) and (state.lastDirectionChange > 3) or (state.step < (state.minFocusStep * 1.5) and state.stepToLastMax > state.step):
+			state.direction = 1 if state.stepToLastMax >= 1 else -1
+			state.step = state.step * 0.75
+			stepToMax = state.stepToLastMax
+			state.stepToLastMax = 0
+			state.lastDirectionChange = 0
+			state.rate = rate
+			#print 2
+			return stepToMax
+	#print lastDirectionChange
+	state.rate = rate
+	state.step = state.direction * state.step
+	state.stepToLastMax -= state.step
+	return state.step
