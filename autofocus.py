@@ -1,4 +1,4 @@
-FOCUS_STEP = 256
+FOCUS_STEP = 128
 epsylon = 0.001
 class FocusState:
 
@@ -9,7 +9,7 @@ class FocusState:
 	    self.rate = 0.0
 	    self.rateMax = 0.0
 	    self.lastSucceeded = True
-	    self.minFocusStep = 4
+	    self.minFocusStep = 2
 	    self.lastDirectionChange = 0
 
 #state = FocusState()
