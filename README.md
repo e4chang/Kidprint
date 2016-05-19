@@ -2,6 +2,8 @@
 
 --------------------------------------------------------------------------------
 
+### Overview
+
 One of the challenges that doctors in developing countries face is
 identification - namely, how to keep track of patients that they have treated
 and how to store their information. This becomes even more of a problem when
@@ -21,14 +23,16 @@ mold it to our needs, we are choosing to experiment with multiple technologies
 and picking the ones that are best suited to the task.
 
 The core steps of the identification process are these:
+
 1. Use a camera to take an image of the fingerprint
-  a. Automatically adjust the settings of the camera to have optimal clarity
-  b. Prepare the image to be pipelined
+  * Automatically adjust the settings of the camera to have optimal clarity
+  * Prepare the image to be pipelined
 2. Pass the image to a processing device
 3. Run the image through an image processing algorithm
 4. Use the metadata from the algorithm to search through a database
 5. Allow the user to view and modify the information of the infant
 
+### Repository Information
 This repository contains the code for the first step - interfacing with the
 embedded devices that are used for the project. These include, but are not
 limited to, various cameras, an Arduino compatible microprocessor, and an
@@ -40,14 +44,12 @@ technologies are likely to change, but by using OpenCV and Arduino, both widely
 accepted standards, we guarantee that this code will be modular across a
 multitude of devices.
 
-Current Camera:
-See3CAM_CU51
-http://www.e-consystems.com/Monochrome-USB-Camera-board.asp
+### Device Information
+**Current Camera:**
+[See3CAM_CU51](http://www.e-consystems.com/Monochrome-USB-Camera-board.asp)
 
-Current Arduino board:
-SparkFun Pro Micro - 5V/16MHz
-https://www.sparkfun.com/products/12640
+**Current Arduino board:**
+[SparkFun Pro Micro - 5V/16MHz](https://www.sparkfun.com/products/12640)
 
-Current Arduino Bluetooth module:
-SparkFun Bluetooth Modem - BlueSMiRF Silver
-https://www.sparkfun.com/products/12577
+**Current Arduino Bluetooth module:**
+[SparkFun Bluetooth Modem - BlueSMiRF Silver](https://www.sparkfun.com/products/12577)
