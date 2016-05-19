@@ -1,12 +1,13 @@
 import autofocus
 import math
 import random
+import time
 import matplotlib.pyplot as plt
 from scipy import signal
 
-NOISE = 0.02
+NOISE = 0.01
 MAX_FOCUS = 1024
-ITERATIONS = 12
+ITERATIONS = 20
 def noise():
     return NOISE - random.random() * 2 * NOISE
 
@@ -26,6 +27,9 @@ def testAutofocus():
     for g in range(len(gauss)):
         function[g] = gauss[g] + noise()
     foci = [0,0]
+    plt.plot(function, 'r.')
+    plt.ion()
+    plt.pause(5)
     for i in range(ITERATIONS):
         state.lastSucceeded = focusPoint < len(function) and focusPoint >= 0
         stepVal = autofocus.correctFocus(function[int(focusPoint)], state)
@@ -33,15 +37,19 @@ def testAutofocus():
         focusPoint = 0 if focusPoint < 0 else focusPoint
         focusPoint = len(function)-1 if focusPoint >= len(function) else focusPoint
         foci.append(int(focusPoint))
+        plt.plot( focusPoint, function[focusPoint], 'b^')
+        plt.pause(0.5)
 
-    fociVal = []
-    for f in foci:
-        fociVal.append(function[f])
+    #fociVal = []
+    #for f in foci:
+    #    fociVal.append(function[f])
 
-    plt.plot(function, 'r.', foci, fociVal, 'b^', focusPoint+state.stepToLastMax , state.rateMax, 'gs')
+    plt.plot( focusPoint+state.stepToLastMax , state.rateMax, 'gs')
     plt.xlabel('Lens distance')
     plt.ylabel('Focus rating')
-    plt.show()
+    #plt.show()
+    while True:
+        plt.pause(0.05)
 #state = autofocus.FocusState()
 testAutofocus()
 
