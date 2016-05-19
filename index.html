@@ -1,41 +1,38 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Kidprint by e4chang</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Kidprint</h1>
-        <p></p>
+    <section class="page-header">
+      <h1 class="project-name">Kidprint</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/e4chang/Kidprint" class="btn">View on GitHub</a>
+      <a href="https://github.com/e4chang/Kidprint/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/e4chang/Kidprint/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <p class="view"><a href="https://github.com/e4chang/Kidprint">View the Project on GitHub <small>e4chang/Kidprint</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/e4chang/Kidprint/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/e4chang/Kidprint/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/e4chang/Kidprint">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="kidprint" class="anchor" href="#kidprint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Kidprint</h1>
 
 <hr>
 
+<h3>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h3>
+
 <p>One of the challenges that doctors in developing countries face is
 identification - namely, how to keep track of patients that they have treated
-and how to store their information. This becomes </p>
+and how to store their information. This becomes even more of a problem when
+the patient does not understand or remember their medical information - when
+they are infants, for example. This makes even the most basic treatments, such
+as vaccinations, very difficult - and a mistake is potentially fatal.</p>
 
 <p>Project Kidprint aims to solve that problem by going back to one of the 
 earliest, but most reliable forms of identification - fingerprints. In
@@ -46,42 +43,58 @@ made, the results have either been unsuccessful, or far too expensive and
 inaccessible. We hope to succeed where others have failed by taking a different
 approach to solving this problem - rather than take a specific technology and
 mold it to our needs, we are choosing to experiment with multiple technologies
-and picking the ones </p>
+and picking the ones that are best suited to the task.</p>
 
-<p>The core steps of the identification process are these:
-1. Use a camera to take an image of the fingerprint
-2. Pass the image to a processing device
-3. Run the image through an image processing algorithm
-4. Use the metadata from the algorithm to search through a database
-5. Allow the user to view and modify the information of the infant</p>
+<p>The core steps of the identification process are these:</p>
+
+<ol>
+<li>Use a camera to take an image of the fingerprint
+
+<ul>
+<li>Automatically adjust the settings of the camera to have optimal clarity</li>
+<li>Prepare the image to be pipelined</li>
+</ul>
+</li>
+<li>Pass the image to a processing device</li>
+<li>Run the image through an image processing algorithm</li>
+<li>Use the metadata from the algorithm to search through a database</li>
+<li>Allow the user to view and modify the information of the infant</li>
+</ol>
+
+<h3>
+<a id="repository-information" class="anchor" href="#repository-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Repository Information</h3>
 
 <p>This repository contains the code for the first step - interfacing with the
-embedded devices that are used for the project. These include, but are not limited
-to, various cameras, an Arduino compatible microprocessor, and an Arduino
-compatible Bluetooth module. The camera will be used to take the pictures of the
-fingerprints, and the Arduino modules will be used to implement an autofocus algorithm, that we hope to . We are rapidly cycling through
-prototypes, so the specific technologies are likely to change, but by using OpenCV
-and Arduino, both widely accepted standards, we guarantee that this code will
-be modular across a multitude of devices.</p>
+embedded devices that are used for the project. These include, but are not
+limited to, various cameras, an Arduino compatible microprocessor, and an
+Arduino compatible Bluetooth module. The camera will be used to take the
+pictures of the fingerprints, and the Arduino modules will be used to implement
+an autofocus algorithm, that we hope to later adapt to automatically change
+light levels. We are rapidly cycling through prototypes, so the specific
+technologies are likely to change, but by using OpenCV and Arduino, both widely
+accepted standards, we guarantee that this code will be modular across a
+multitude of devices.</p>
 
-<p>Current Camera:
-See3CAM_CU51
-<a href="http://www.e-consystems.com/Monochrome-USB-Camera-board.asp">http://www.e-consystems.com/Monochrome-USB-Camera-board.asp</a></p>
+<h3>
+<a id="device-information" class="anchor" href="#device-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Device Information</h3>
 
-<p>Current Arduino board:
-SparkFun Pro Micro - 5V/16MHz
-<a href="https://www.sparkfun.com/products/12640">https://www.sparkfun.com/products/12640</a></p>
+<p><strong>Current Camera:</strong>
+<a href="http://www.e-consystems.com/Monochrome-USB-Camera-board.asp">See3CAM_CU51</a></p>
 
-<p>Current Arduino Bluetooth module:
-SparkFun Bluetooth Modem - BlueSMiRF Silver
-<a href="https://www.sparkfun.com/products/12577">https://www.sparkfun.com/products/12577</a></p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/e4chang">e4chang</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+<p><strong>Current Arduino board:</strong>
+<a href="https://www.sparkfun.com/products/12640">SparkFun Pro Micro - 5V/16MHz</a></p>
+
+<p><strong>Current Arduino Bluetooth module:</strong>
+<a href="https://www.sparkfun.com/products/12577">SparkFun Bluetooth Modem - BlueSMiRF Silver</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/e4chang/Kidprint">Kidprint</a> is maintained by <a href="https://github.com/e4chang">e4chang</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+    </section>
+
+  
   </body>
 </html>
