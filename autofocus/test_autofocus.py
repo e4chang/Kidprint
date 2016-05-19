@@ -1,3 +1,5 @@
+# Driver script to test the autofocus modules
+
 import autofocus
 import math
 import random
@@ -5,9 +7,12 @@ import time
 import matplotlib.pyplot as plt
 from scipy import signal
 
+# Constants
 NOISE = 0.01
 MAX_FOCUS = 1024
 ITERATIONS = 20
+
+# Random value used to distort a point
 def noise():
     return NOISE - random.random() * 2 * NOISE
 
@@ -21,15 +26,18 @@ def testAutofocus():
     focusPoint = 0
     state = autofocus.FocusState()
     # function = generateSineWave(300)
-    # generate gaussian function centered ~300
-    gauss = signal.gaussian(624, std=50)
+    gauss = signal.gaussian(624, std=50)      # Generate Gaussian function
     function = [0 for i in range(1024)]
-    for g in range(len(gauss)):
+    for g in range(len(gauss)):               # Distort the Gaussian func
         function[g] = gauss[g] + noise()
     foci = [0,0]
+
+    # Plot the points of the simulated function
     plt.plot(function, 'r.')
     plt.ion()
     plt.pause(5)
+
+    # Test the function for getting next focus value and plot it
     for i in range(ITERATIONS):
         state.lastSucceeded = focusPoint < len(function) and focusPoint >= 0
         stepVal = autofocus.correctFocus(function[int(focusPoint)], state)
@@ -44,6 +52,7 @@ def testAutofocus():
     #for f in foci:
     #    fociVal.append(function[f])
 
+    # Plot the maximum focus point found
     plt.plot( focusPoint+state.stepToLastMax , state.rateMax, 'gs')
     plt.xlabel('Lens distance')
     plt.ylabel('Focus rating')

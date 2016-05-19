@@ -1,3 +1,5 @@
+# This is the initial script used to test the naming system
+
 import os
 import re
 
@@ -23,9 +25,6 @@ def readFiles():
         if p.match(f):
             matches.append(f)
 
-    #print matches
-    #print nextSequence
-
     for match in matches:
         m = match.strip(ext)
         finger = m.split(delim)
@@ -35,7 +34,6 @@ def readFiles():
 
         curr = nextSequence[H][F]
         nextSequence[H][F] = S+1 if S >= curr else curr
-    #print nextSequence
 
 # Inputs:
 #   H: 'L' or 'R'

@@ -1,7 +1,8 @@
-FOCUS_STEP = 128
-epsylon = 0.001
+FOCUS_STEP = 128                    # Initial step value
+epsylon = 0.001                     # Threshold value
 class FocusState:
 
+  # Initialize state - used to keep track of previous focus
 	def __init__(self):
 	    self.direction = 1
 	    self.step = FOCUS_STEP
@@ -12,35 +13,34 @@ class FocusState:
 	    self.minFocusStep = 2
 	    self.lastDirectionChange = 0
 
-#state = FocusState()
-#print state.direction
-
+# This function calculates the next step to change focus
 def correctFocus(rate, state):
-	# print state.direction
 	state.lastDirectionChange += 1
 	rateDelta = rate - state.rate
-	#print rate, state.rate
 
+  # Found new maximum
 	if rate > state.rateMax + epsylon:
 		state.stepToLastMax = 0
 		state.rateMax = rate
 		lastDirectionChange = 0
-		#print "dir change"
 
+  # Last state went out of bounds
 	if not state.lastSucceeded:
 		state.direction *= -1
 		state.lastDirectionChange = 0
 		state.step = state.step / 2
+
+  # Last state was successful
 	else:
-		#print rate + epsylon,"<", state.rateMax,state.lastDirectionChange,"\n"
-		#print rateDelta, "<", -epsylon
+    # No change
 		if rate < epsylon:
 			state.step = FOCUS_STEP
+    # Wrong direction
 		elif rateDelta < -epsylon:
 			state.direction *= -1
-			#print "dir change"
 			state.step = state.step * 3 / 4
 			state.lastDirectionChange = 0
+    # Did not increase focus for 3 steps or min step reached
 		elif ((rate + epsylon < state.rateMax) and
 		     ((state.lastDirectionChange > 3) or
          (state.step < (state.minFocusStep * 3 / 2) and
@@ -51,12 +51,10 @@ def correctFocus(rate, state):
 			state.stepToLastMax = 0
 			state.lastDirectionChange = 0
 			state.rate = rate
-			#print "dir change"
-			#print stepToMax, state.direction, state.stepToLastMax
 			return stepToMax
-	#print lastDirectionChange
+
+  # Calculate and return new step value
 	state.rate = rate
 	tempStep = state.direction * state.step
 	state.stepToLastMax -= tempStep
-	#print tempStep, state.direction, state.stepToLastMax
 	return tempStep
