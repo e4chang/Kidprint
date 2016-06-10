@@ -1,6 +1,8 @@
 import cv2
 import os
 import re
+from time import sleep
+import autofocus as af
 import KP_Serial as ks
 
 # Dealing with all the file namings
@@ -16,6 +18,7 @@ class FileName:
     def __init__(self, directory = './', kidID = 'KP000', proto = '000'):
         self.indH = 0
         self.indZ = 0
+        self.indR = 0
         # Define some flags to be used by the infinite loop,
         # used for indicating file name
         self._fileindex = FileIndex(directory)
@@ -100,8 +103,10 @@ class FileIndex():
 
 class KeyMapping():
 
+    _R = ['3840x2160', '1920x1080', '1280x720', '800x480', '640x360']
+
     def __init__(self):
-        self._lenval = 420
+        self._lenval = 0
 
 
     def inputKey(self, cap_, kid, k = 0, focus_control = False, pm = None):
@@ -124,8 +129,27 @@ class KeyMapping():
             # Abstract them into one function
             kid.updateInd(1)
             kid.updateFn()
-        elif k == ord("f"):
-            fmethod = not fmethod
+        elif k == ord("j"):
+            lenval = 0
+            ks.lenset(pm, lenval)
+            state = af.FocusState()
+            for i in range(10):
+                sleep(0.5)
+                cap_.readImg()
+                img = cap_.img
+                rating = af.rateFrame(img)
+                delta = af.correctFocus(rating, state)
+                print rating, delta
+                fn = str(i) + ".bmp"
+                cv2.imwrite(fn, img)
+                print(kid.fn, 'saved')
+                lenval += delta
+                ks.lenset(pm, lenval)
+            lenval += state.stepToLastMax
+            ks.lenset(pm, lenval)
+        elif k == ord("1"):
+            img = cap_.img
+            print af.rateFrame(img)
         elif k == ord("i"):
             his = not his
             if not his:
@@ -152,5 +176,11 @@ class KeyMapping():
             pm = ks.PMint()
             ks.lenint(pm)
             ks.lenset(pm, lenval)
+        elif k == ord("-"):
+            kid.indR += 1
+            kid.indR = kid.indR % len(self._R)
+            cap_.w, cap_.h = self._R[kid.indR].split('x')
+            cap_.updateRes()
+
         self._lenval = lenval
         return 0

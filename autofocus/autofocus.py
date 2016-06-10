@@ -40,6 +40,7 @@ def correctFocus(rate, state):
 			state.direction *= -1
 			state.step = state.step * 3 / 4
 			state.lastDirectionChange = 0
+			print '[Direction change] Rate drop.. new step: ', state.step
     # Did not increase focus for 3 steps or min step reached
 		elif ((rate + epsylon < state.rateMax) and
 		     ((state.lastDirectionChange > 3) or
@@ -51,10 +52,11 @@ def correctFocus(rate, state):
 			state.stepToLastMax = 0
 			state.lastDirectionChange = 0
 			state.rate = rate
+			print '[Direction change] No increase for 3 steps / min reached'
 			return stepToMax
 
   # Calculate and return new step value
 	state.rate = rate
-	tempStep = state.direction * state.step
-	state.stepToLastMax -= tempStep
-	return tempStep
+	signedStep = state.direction * state.step
+	state.stepToLastMax -= signedStep
+	return signedStep
